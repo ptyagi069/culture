@@ -25,6 +25,7 @@ class HomePage extends StatelessWidget {
           child: ListView(
             children: [
               DrawerHeader(
+                
                   child: Icon(
                 Icons.pin_drop,
                 size: 35,
