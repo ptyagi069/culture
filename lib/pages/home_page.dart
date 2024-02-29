@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:culture/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -80,6 +81,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      drawer: myDrawer,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -99,6 +101,10 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 hintText: "Search here...",
+                hintStyle: GoogleFonts.dmSerifDisplay(
+                  fontSize: 15,
+                  color: Color.fromARGB(255, 66, 66, 66),
+                ),
               ),
             ),
           ),
