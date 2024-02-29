@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(
           'REGIONS',
           style: GoogleFonts.dmSerifDisplay(
-            fontSize: 28,
+            fontSize: 25,
             color: const Color.fromARGB(255, 0, 0, 0),
           ),
         ),
@@ -148,8 +148,8 @@ class _HomePageState extends State<HomePage> {
               child: Text(
                 regionName,
                 style: GoogleFonts.dmSerifDisplay(
-                  fontSize: 28,
-                  color: const Color.fromARGB(255, 0, 0, 0),
+                  fontSize: 20,
+                  color: Color.fromARGB(255, 70, 70, 70),
                 ),
               ),
             ),

@@ -13,10 +13,10 @@ class CountryPage extends StatelessWidget {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text(
-          'Country Details',
+          'COUNTRIES',
           style: GoogleFonts.dmSerifDisplay(
-            fontSize: 28,
-            color: const Color.fromARGB(255, 0, 0, 0),
+            fontSize: 25,
+            color: Color.fromARGB(255, 54, 54, 54),
           ),
         ),
       ),
@@ -24,19 +24,12 @@ class CountryPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Selected Country Codes: ${countryCodes.join(", ")}',
-              style: GoogleFonts.dmSerifDisplay(
-                fontSize: 28,
-                color: const Color.fromARGB(255, 0, 0, 0),
-              ),
-            ),
             SizedBox(height: 20),
             Text(
-              'List of Countries in the Region:',
+              'Locations ~>',
               style: GoogleFonts.dmSerifDisplay(
-                fontSize: 28,
-                color: const Color.fromARGB(255, 0, 0, 0),
+                fontSize: 20,
+                color: Color.fromARGB(255, 70, 70, 70),
               ),
             ),
             Expanded(
@@ -44,21 +37,20 @@ class CountryPage extends StatelessWidget {
                 itemCount: filteredCountries.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 10),
                     child: Card(
                       elevation: 3,
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 232, 232, 232),
                       child: ListTile(
-                        title: Text(
-                          filteredCountries[index]['countryName'] ?? '',
-                          style: GoogleFonts.dmSerifDisplay(
-                            fontSize: 28,
-                            color: const Color.fromARGB(255, 0, 0, 0),
+                        title: Center(
+                          child: Text(
+                            filteredCountries[index]['countryName'] ?? '',
+                            style: GoogleFonts.dmSerifDisplay(
+                              fontSize: 20,
+                              color: const Color.fromARGB(255, 70, 70, 70),
+                            ),
                           ),
-                        ),
-                        subtitle: Text(
-                          filteredCountries[index]['countryCode'] ?? '',
-                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                     ),
