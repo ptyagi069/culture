@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:culture/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late List<Map<String, String>> _countries = [];
   late List<String> _regionNames = [];
   late List<String> _filteredRegionNames = [];
   late TextEditingController _searchController;
@@ -21,21 +21,33 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _searchController = TextEditingController();
-    getRegions();
+    getCountries();
   }
 
-  Future<void> getRegions() async {
+  Future<void> getCountries() async {
     var response = await http
         .get(Uri.parse('https://devapi.cultureholidays.com/GetCountry'));
     var jsonData = jsonDecode(response.body);
-    print(response.body);
-    Set<String> regionNames = {};
+
+    List<Map<String, String>> countries = [];
 
     for (var data in jsonData) {
-      regionNames.add(data['regionName']);
+      String countryName = data['countryName'];
+      String countryCode = data['countryCode'];
+      String regionName = data['regionName'];
+
+      countries.add({
+        'countryName': countryName,
+        'countryCode': countryCode,
+        'regionName': regionName,
+      });
     }
 
+    Set<String> regionNames =
+        Set.from(countries.map((country) => country['regionName']!));
+
     setState(() {
+      _countries = countries;
       _regionNames = regionNames.toList();
       _filteredRegionNames = _regionNames; // Initialize filtered list
     });
@@ -59,8 +71,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: myAppBar,
-      drawer: myDrawer,
+      appBar: AppBar(
+        title: Text(
+          'REGIONS',
+          style: GoogleFonts.dmSerifDisplay(
+            fontSize: 28,
+            color: const Color.fromARGB(255, 0, 0, 0),
+          ),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -80,10 +99,6 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 hintText: "Search here...",
-                hintStyle: GoogleFonts.dmSerifDisplay(
-                  fontSize: 15,
-                  color: Color.fromARGB(255, 66, 66, 66),
-                ),
               ),
             ),
           ),
@@ -102,6 +117,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildRegionCard(BuildContext context, String regionName) {
+    List<Map<String, String>> filteredCountries = _countries
+        .where((country) => country['regionName'] == regionName)
+        .toList();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       child: Card(
@@ -115,7 +133,12 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CountryPage(regionName: regionName),
+                builder: (context) => CountryPage(
+                  filteredCountries: filteredCountries,
+                  countryCodes: filteredCountries
+                      .map((country) => country['countryCode'] ?? '')
+                      .toList(),
+                ),
               ),
             );
           },
@@ -125,8 +148,8 @@ class _HomePageState extends State<HomePage> {
               child: Text(
                 regionName,
                 style: GoogleFonts.dmSerifDisplay(
-                  fontSize: 18,
-                  color: Colors.black,
+                  fontSize: 28,
+                  color: const Color.fromARGB(255, 0, 0, 0),
                 ),
               ),
             ),
